@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erişim Kontrolü Simülasyonu</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background-color: #f4f4f9; color: #333; }
+        .header { background-color: #3f51b5; color: white; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        .user-switch { margin-bottom: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 8px; background-color: #e8eaf6; }
+        .user-switch a { text-decoration: none; padding: 8px 15px; margin-right: 10px; border-radius: 5px; background-color: #ff9800; color: white; transition: background-color 0.3s; }
+        .user-switch a:hover { background-color: #f57c00; }
+        .post-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .post-card { border: 1px solid #ddd; padding: 15px; border-radius: 6px; background-color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .post-card h4 { margin-top: 0; color: #3f51b5; }
+        .post-card p { font-size: 0.9em; color: #666; }
+        .metadata { font-size: 0.8em; color: #999; margin-top: 10px; border-top: 1px solid #eee; padding-top: 5px; }
+        .visibility-public { color: green; font-weight: bold; }
+        .visibility-friends { color: orange; font-weight: bold; }
+        .visibility-private { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Minimalist Blog - Erişim Kontrolü Simülasyonu</h1>
+        <p>Giriş Yapan Kullanıcı: <strong><%= currentUser.name %> (ID: <%= currentUser.id %>)</strong></p>
+    </div>
+
+    <div class="user-switch">
+        <h3>Kullanıcı Değiştir (Simülasyon)</h3>
+        <% users.forEach(user => { %>
+            <a href="?user=<%= user.id %>"><%= user.name %> olarak gör</a>
+        <% }); %>
+        <p style="margin-top: 10px; font-size: 0.9em;">**Arkadaşlık Durumu:** <%= friendStatus %></p>
+    </div>
+
+    <h2>Görüntülenebilen Postlar (<%= visiblePosts.length %>)</h2>
+
+    <div class="post-list">
+        <% if (visiblePosts.length === 0) { %>
+            <p>Bu kullanıcının görebildiği post bulunmamaktadır.</p>
+        <% } %>
+        <% visiblePosts.forEach(post => { %>
+            <div class="post-card">
+                <h4><%= post.title %></h4>
+                <p><%= post.content %></p>
+                <div class="metadata">
+                    Yazar ID: <%= post.userId %> | 
+                    Gizlilik: <span class="visibility-<%= post.visibility %>"><%= post.visibility.toUpperCase() %></span>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+
+</body>
+</html>

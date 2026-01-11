@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  app:
+    # Dockerfile'ı kullan
+    build:
+      context: .
+      dockerfile: Dockerfile
+    
+    # Geliştirme kolaylığı için hot-reload portu
+    ports:
+      - "3000:3000"
+      
+    # Diskte yer kaplamamayı sağlayan KRİTİK volume ayarları
+    volumes:
+      # 1. node_modules klasörünü Docker Volume'üne izole et
+      # Böylece yerel Mac'e inmez ve hot-reload çalışmaya devam eder.
+      - /usr/src/app/node_modules
+      # 2. Proje kodunu bağla (hot-reload için gerekli)
+      - .:/usr/src/app
+    
+    # Ortam değişkeni ile sunucuya erişimi kolaylaştır
+    environment:
+      NODE_ENV: development
